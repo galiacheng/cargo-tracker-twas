@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>cargo-tracker-modules</artifactId>
+		<groupId>org.eclipse.ee4j</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>cargo-tracker-application</artifactId>
+	<packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.ee4j</groupId>
+			<artifactId>cargo-tracker</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>cargo-tracker</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<version>7</version>
+                    <archive>
+						<manifestEntries>
+							<Enable-Implicit-Bean-Archive>false</Enable-Implicit-Bean-Archive>
+							<Enable-CDI>false</Enable-CDI>
+						</manifestEntries>
+					</archive>
+					<modules>
+						<webModule>
+							<groupId>org.eclipse.ee4j</groupId>
+							<artifactId>cargo-tracker</artifactId>
+							<contextRoot>/cargo-tracker</contextRoot>
+							<bundleFileName>cargo-tracker.war</bundleFileName>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
