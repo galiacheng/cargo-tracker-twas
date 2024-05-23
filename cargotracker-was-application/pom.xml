@@ -28,12 +28,6 @@
 				<version>3.2.0</version>
 				<configuration>
 					<version>7</version>
-                    <archive>
-						<manifestEntries>
-							<Enable-Implicit-Bean-Archive>false</Enable-Implicit-Bean-Archive>
-							<Enable-CDI>false</Enable-CDI>
-						</manifestEntries>
-					</archive>
 					<modules>
 						<webModule>
 							<groupId>org.eclipse.ee4j</groupId>

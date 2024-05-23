@@ -73,7 +73,7 @@
         <class-name>${db.driverClass}</class-name>
         <url>${db.jdbcUrl}</url>
     </data-source>
-	<jms-destination>
+	<!-- <jms-destination>
 		<name>java:app/jms/CargoHandledQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
 		<destination-name>CargoHandledQueue</destination-name>
@@ -92,10 +92,10 @@
 		<name>java:app/jms/RejectedRegistrationAttemptsQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
 		<destination-name>RejectedRegistrationAttemptsQueue</destination-name>
-	</jms-destination>
-	<jms-destination>
+	</jms-destination> -->
+	<!-- <jms-destination>
 		<name>java:app/jms/HandlingEventRegistrationAttemptQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
 		<destination-name>HandlingEventRegistrationAttemptQueue</destination-name>
-	</jms-destination>
+	</jms-destination> -->
 </web-app>
