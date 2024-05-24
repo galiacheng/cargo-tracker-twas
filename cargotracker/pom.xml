@@ -33,31 +33,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-
-		<javaee_api.version>7.0</javaee_api.version>
-
 		<!-- Arquillian properties -->
 		<arquillian.core.version>1.4.1.Final</arquillian.core.version>
 		<skipTests>true</skipTests>
 
-		<!-- Codehaus Cargo plugin properties -->
-		<cargo.version>1.8.1</cargo.version>
-		<cargo.payara.container_id>glassfish4x</cargo.payara.container_id>
-		<cargo.payara.download_uri>
-			https://repo1.maven.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip
-		</cargo.payara.download_uri>
-
-		<!-- Application properties -->
-		<webapp.databaseTempDir>/tmp</webapp.databaseTempDir>
 		<webapp.graphTraversalUrl>
 			http://localhost:9080/cargo-tracker/rest/graph-traversal/shortest-path
 		</webapp.graphTraversalUrl>
-    <jta.data.source>jdbc/WebSphereCafeDB</jta.data.source>
-    <db.driverClass>org.postgresql.ds.PGConnectionPoolDataSource</db.driverClass>
-    <db.jdbcUrl>jdbc:postgresql://db9170840787162.postgres.database.azure.com:5432/testdb</db.jdbcUrl>
 	</properties>
 
 	<dependencyManagement>
@@ -76,15 +58,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-
-		<!-- Jakarta EE API -->
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>${javaee_api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- GlassFish specific dependencies, is not needed with Jakarta EE 8+ -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
@@ -172,38 +145,4 @@
 
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>payara</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>fish.payara.arquillian</groupId>
-					<artifactId>arquillian-payara-server-4-remote</artifactId>
-					<version>1.1</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>${cargo.version}</version>
-						<configuration>
-							<container>
-								<containerId>${cargo.payara.container_id}</containerId>
-								<zipUrlInstaller>
-									<url>${cargo.payara.download_uri}</url>
-								</zipUrlInstaller>
-							</container>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

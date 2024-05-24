@@ -8,10 +8,15 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<description>
+        The project demonstrates how you can a Java EE 7 application in IBM WebSphere Application Server Traditional V9.
+    </description>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<javaee_api.version>7.0</javaee_api.version>
 	</properties>
 
 	<modules>
@@ -20,10 +25,11 @@
 	</modules>
 
 	<dependencies>
+		<!-- Jakarta EE API -->
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
+			<version>${javaee_api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
