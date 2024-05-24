@@ -78,10 +78,10 @@ Follow the steps to create data source:
     * Select **Next**.
   * In **Step 2**:
     * Select **Select an existing JDBC provider**.
-    * From the drop down, select **PostgreSQLJDBCProvider**.
+    * From the drop down, select `PostgreSQLJDBCProvider`.
     * Select **Next**.
   * In **Step 3**:
-    * For **Data store helper class name**, fill in **com.ibm.websphere.rsadapter.GenericDataStoreHelper**.
+    * For **Data store helper class name**, fill in `com.ibm.websphere.rsadapter.GenericDataStoreHelper`.
     * Select *Next**.
   * In **Step 4**:
     * Under **Component-managed authentication alias**, select the authentication alias `postgresql-cargotracker-auth`.
@@ -102,6 +102,127 @@ Validate the data source connection:
 
 ## Create JMS queues
 
+In this section, you'll create a JMS Bus, a JMS Queue Connection Factory, five JMS Queues and 5 Activation specifications. 
+Their names ane relationship are listed in the table.
+
+| Bean name | Activation spec |Activation spec JNDI | Queue name | Queue JNDI |
+|-----------|----------------------|------------|
+| RejectedRegistrationAttemptsConsumer | RejectedRegistrationAttemptsQueueAS | jms/RejectedRegistrationAttemptsQueueAS | RejectedRegistrationAttemptsQueue| jms/RejectedRegistrationAttemptsQueue |
+| HandlingEventRegistrationAttemptConsumer | HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueueAS | HandlingEventRegistrationAttemptQueue | jms/HandlingEventRegistrationAttemptQueue |
+| CargoHandledConsumer | CargoHandledQueueAS | jms/CargoHandledQueueAS | CargoHandledQueue | jms/CargoHandledQueue |
+| DeliveredCargoConsumer | DeliveredCargoConsumerAS | jms/DeliveredCargoConsumerAS | DeliveredCargoConsumer | jms/DeliveredCargoConsumer |
+| MisdirectedCargoConsumer | MisdirectedCargoConsumerAS | jms/MisdirectedCargoConsumerAS | MisdirectedCargoConsumer | jms/MisdirectedCargoConsumer |
+
+Create JMS Bus.
+
+* Open the administrative console in your Web browser and login with WebSphere administrator credentials.
+* In the left navigation panel, select **Service integration** -> **Buses**.
+* In the **Buses** panel, select **New...**.
+* For **Enter the name for your new bus**, fill in `CargoTrackerBus`.
+* Uncheck the checkbox next to **Bus security**.
+* Select **Next**.
+* Select **Finish**. You'll return back to the Buses table.
+* In the table, select **CargoTrackerBus**.
+* In the **Configuration** panel, under **Topology**, select **Bus members**.
+* Select **Add** button to open **Add a new bus member** panel.
+* For **Select servers, cluster or WebSphere MQ server**, select **Cluster**. 
+* Next to **Cluster**, from the dropdown, select **MyCluster**.
+* Select **Next**.
+* Select **Next**.
+* In **Step 1.1.1**, select **Data store**.
+* Select **Next**.
+* In **Step 1.1.2**, select hyperlink **MyCluster.000-CargoTrackerBus**.
+    * For **Data source JNDI name**, fill in `jdbc/CargoTrackerDB`, the data source created before.
+    * Select **Next**.
+* Select **Next**.
+* Select **Next**.
+* Select **Finish**.
+* Select **Save** to save the configuration.
+
+Create JMS queue connection factories.
+
+* In the left navigation panel, select **Resources** -> **JMS** -> **Queue connection factories**.
+* Switch scope to **Cluster=MyCluster**.
+* Select **New**.
+  * For **Select JMS resource provider**, select **Default messaging provider**.
+  * Select **OK**.
+  * In **General Properties** panel, under **Administration**:
+    * For **Name**, fill in `CargoTrackerQCF`.
+    * For **JNDI name**, fill in `jms/CargoTrackerQCF`
+  * Under **Connection**:
+    * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
+  * Select **Apply**.
+  * Select **Save** to save the configuration.
+
+Create JMS queues.
+
+* In the left navigation panel, select **Resources** -> **JMS** -> **Queues**.
+* Switch scope to **Cluster=MyCluster**.
+* Follow the steps to create 5 queues, queue names and JDNI are listed in above table.
+  * Select **New**.
+  * For **Select JMS resource provider**, select **Default messaging provider**.
+  * Select **OK**.
+  * In **General Properties** panel, under **Administration**:
+    * For **Name**, fill in one of queue names listed in above table, e.g. `HandlingEventRegistrationAttemptQueue`.
+    * For **JNDI name**, fill in corresponding JNDI name, e.g. `jms/HandlingEventRegistrationAttemptQueue`.
+  * Under **Connection**:
+    * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
+    * For **Queue name**, select **Create Service Integration Bus Destination**. The selection causes opening a new panel. Input required value.
+        * For **Identity**, input the same value with queue name, e.g `HandlingEventRegistrationAttemptQueue`.
+        * Select **Next**.
+        * For **Bus member**, select **Cluster=MyCluster**.
+        * Select **Next**.
+        * Select **Finish**.
+  * Select **Apply**.
+  * Select **Save** to save the configuration. 
+* After 5 queues are completed, continue to create Activation specifications.
+
+Create Activation specifications.
+
+* In the left navigation panel, select **Resources** -> **JMS** -> **Activation specifications**.
+* Switch scope to **Cluster=MyCluster**.
+* Follow the steps to create 5 activation specifications, names and JDNI are listed in above table.
+  * Select **New**.
+  * For **Select JMS resource provider**, select **Default messaging provider**.
+  * Select **OK**.
+  * In **General Properties** panel, under **Administration**:
+    * For **Name**, fill in one of queue names listed in above table, e.g. `HandlingEventRegistrationAttemptQueueAS`.
+    * For **JNDI name**, fill in corresponding JNDI name, e.g. `jms/HandlingEventRegistrationAttemptQueueAS`.
+  * Under **Connection**:
+    * For **Destination type**, select **Queue**.
+    * For **Destination lookup**, fill in corresponding queue JNDI name listed in the same row of above table. In this example, value is `jms/HandlingEventRegistrationAttemptQueue`.
+    * For **Connection factory lookup**, fill in `jms/CargoTrackerQCF`.
+    * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
+  * Select **Apply**.
+  * Select **Save** to save the configuration.
+* After 5 activation specifications are completed, you are ready to deploy application.
+
 ## Deploy Cargo Tracker
+
+With data source and JMS configured, you are able to deploy the application.
+
+* Open the administrative console in your Web browser and login with WebSphere administrator credentials.
+* In the left navigation panel, select **Applications** -> **Applications Types** -> **WebSphere enterprise applications**.
+* In the **Enterprise Applications** panel, select **Install**.
+  * For **Path to the new application**, select **Local file system**.
+  * Select **Choose File**, a wizard for uploading files will be open.
+  * Locate to `cargotracker-was-application/target/cargo-tracker.ear` and upload the EAR file.
+  * Select **Next**.
+  * Select **Next**.
+  * In **Step 1**, select **Next**.
+  * In **Step 2**:
+    * Check **cargo-tracker.war** from the table.
+    * Select **Apply**. 
+    * Select **Next**.
+  * In **Step 3**, fill in bind listeners for all the beans.
+      | Bean name | Listener Bindings | Target Resource JNDI Name | Destination JNDI name |
+      |-----------|-------------------|---------------------------|-----------------------|
+      | RejectedRegistrationAttemptsConsumer | Activation Specification | jms/RejectedRegistrationAttemptsQueueAS | jms/RejectedRegistrationAttemptsQueue |
+      | CargoHandledConsumer | Activation Specification | jms/CargoHandledQueueAS | jms/CargoHandledQueue |
+      | MisdirectedCargoConsumer | Activation Specification | jms/MisdirectedCargoConsumerAS | jms/MisdirectedCargoConsumer |
+      | DeliveredCargoConsumer | Activation Specification | jms/DeliveredCargoConsumerAS | jms/DeliveredCargoConsumer |
+      | HandlingEventRegistrationAttemptConsumer | Activation Specification | jms/HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueue |
+  * Select all the beans using the select all button.
+  * Select **Next**.
 
 ## Test the appliation

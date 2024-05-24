@@ -5,8 +5,8 @@
                                  http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-bnd_1_0.xsd"
              version="1.0">
   <message-driven name="RejectedRegistrationAttemptsConsumer">
-	  <jca-adapter activation-spec-binding-name="jms/HandlingEventRegistrationAttemptQueueAS"
-	        destination-binding-name="jms/HandlingEventRegistrationAttemptQueue" />
+	  <jca-adapter activation-spec-binding-name="jms/RejectedRegistrationAttemptsQueueAS"
+	        destination-binding-name="jms/RejectedRegistrationAttemptsQueue" />
 	  <resource-ref name="jms/CargoTrackerQCF"
   		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
