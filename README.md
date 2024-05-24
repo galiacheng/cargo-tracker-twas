@@ -1,6 +1,6 @@
-# Run a Java EE 7 (Cargo Tracker V1.0) in IBM WebSphere Application Server Traditional Network Deployment V9 on Azure VMs
+# Run a Java EE 7 application in IBM WebSphere Application Server Traditional Network Deployment V9 on Azure VMs
 
-The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well known Jakata EE sample application Cargo Tracker. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
+The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well known Jakata EE sample application Cargo Tracker V1.0. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
 
 # Getting Started
 
@@ -106,7 +106,7 @@ In this section, you'll create a JMS Bus, a JMS Queue Connection Factory, five J
 Their names ane relationship are listed in the table.
 
 | Bean name | Activation spec |Activation spec JNDI | Queue name | Queue JNDI |
-|-----------|----------------------|------------|
+|-----------|-----------------|---------------------|------------|------------|
 | RejectedRegistrationAttemptsConsumer | RejectedRegistrationAttemptsQueueAS | jms/RejectedRegistrationAttemptsQueueAS | RejectedRegistrationAttemptsQueue| jms/RejectedRegistrationAttemptsQueue |
 | HandlingEventRegistrationAttemptConsumer | HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueueAS | HandlingEventRegistrationAttemptQueue | jms/HandlingEventRegistrationAttemptQueue |
 | CargoHandledConsumer | CargoHandledQueueAS | jms/CargoHandledQueueAS | CargoHandledQueue | jms/CargoHandledQueue |
@@ -224,5 +224,15 @@ With data source and JMS configured, you are able to deploy the application.
       | HandlingEventRegistrationAttemptConsumer | Activation Specification | jms/HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueue |
   * Select all the beans using the select all button.
   * Select **Next**.
+  * In **Step 4**, check the box next to **cargo-tracker.war**. Select **Next**.
+  * In **Step 5**, select **Next**.
+  * In **Step 6**:
+    * Check the box next to **cargo-tracker.war,WEB-INF/ejb-jar.xml**.
+    * Check the box next to **	cargo-tracker.war,WEB-INF/web.xml**.
+    * Select **Next**.
+* Select **Finish**.
+* Select **Save** to save the configuration.
+* In the table that lists application, select **cargo-tracker-application**.
+* Select **Start** to start Cargo Tracker.
 
 ## Test the appliation
