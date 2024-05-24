@@ -109,7 +109,7 @@ Validate the data source connection:
 ## Create JMS queues
 
 In this section, you'll create a JMS Bus, a JMS Queue Connection Factory, five JMS Queues and 5 Activation specifications. 
-Their names ane relationship are listed in the table.
+Their names and relationship are listed in the table.
 
 | Bean name | Activation spec |Activation spec JNDI | Queue name | Queue JNDI |
 |-----------|-----------------|---------------------|------------|------------|
