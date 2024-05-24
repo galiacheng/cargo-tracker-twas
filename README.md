@@ -51,9 +51,15 @@ TBD
 
 In this section, you'll configure the data source using IBM console. 
 
-Before configuring the data source, you need to create authentication alias for the PostgreSQL Server admin credentials. Follow the steps to create J2C authentication data.
+First, configure the Console to synchronize changes with Nodes.
 
 * Open the administrative console in your Web browser and login with WebSphere administrator credentials.
+* In the left navigation panel, select **System administration** -> **Console Preference**.
+* Select **Synchronize changes with Nodes**.
+* Select **Apply**. You will find message saying "Your preferences have been changed."
+
+Before configuring the data source, you need to create authentication alias for the PostgreSQL Server admin credentials. Follow the steps to create J2C authentication data.
+
 * In the left navigation panel, select **Resources** -> **Security**. You will open **Global security** panel.
 * Under the **Authentication** section, expand **Java Authentication and Authorization Service**.
 * Select **J2C authentication data**.
