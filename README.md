@@ -116,8 +116,10 @@ Their names and relationship are listed in the table.
 | RejectedRegistrationAttemptsConsumer | RejectedRegistrationAttemptsQueueAS | jms/RejectedRegistrationAttemptsQueueAS | RejectedRegistrationAttemptsQueue| jms/RejectedRegistrationAttemptsQueue |
 | HandlingEventRegistrationAttemptConsumer | HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueueAS | HandlingEventRegistrationAttemptQueue | jms/HandlingEventRegistrationAttemptQueue |
 | CargoHandledConsumer | CargoHandledQueueAS | jms/CargoHandledQueueAS | CargoHandledQueue | jms/CargoHandledQueue |
-| DeliveredCargoConsumer | DeliveredCargoConsumerAS | jms/DeliveredCargoConsumerAS | DeliveredCargoConsumer | jms/DeliveredCargoConsumer |
-| MisdirectedCargoConsumer | MisdirectedCargoConsumerAS | jms/MisdirectedCargoConsumerAS | MisdirectedCargoConsumer | jms/MisdirectedCargoConsumer |
+| DeliveredCargoConsumer | DeliveredCargoQueueAS | jms/DeliveredCargoQueueAS | DeliveredCargoQueue | jms/DeliveredCargoQueue |
+| MisdirectedCargoConsumer | MisdirectedCargoQueueAS | jms/MisdirectedCargoQueueAS | MisdirectedCargoQueue | jms/MisdirectedCargoQueue |
+
+You can find the binding definition from `cargotracker/src/main/resources/META-INF/ibm-ejb-jar-bnd.xml`.
 
 Create JMS Bus.
 
@@ -127,13 +129,12 @@ Create JMS Bus.
 * For **Enter the name for your new bus**, fill in `CargoTrackerBus`.
 * Uncheck the checkbox next to **Bus security**.
 * Select **Next**.
-* Select **Finish**. You'll return back to the Buses table.
+* Select **Finish**. You'll return back to the **Buses** table.
 * In the table, select **CargoTrackerBus**.
 * In the **Configuration** panel, under **Topology**, select **Bus members**.
 * Select **Add** button to open **Add a new bus member** panel.
 * For **Select servers, cluster or WebSphere MQ server**, select **Cluster**. 
 * Next to **Cluster**, from the dropdown, select **MyCluster**.
-* Select **Next**.
 * Select **Next**.
 * In **Step 1.1.1**, select **Data store**.
 * Select **Next**.
@@ -225,8 +226,8 @@ With data source and JMS configured, you are able to deploy the application.
       |-----------|-------------------|---------------------------|-----------------------|
       | RejectedRegistrationAttemptsConsumer | Activation Specification | jms/RejectedRegistrationAttemptsQueueAS | jms/RejectedRegistrationAttemptsQueue |
       | CargoHandledConsumer | Activation Specification | jms/CargoHandledQueueAS | jms/CargoHandledQueue |
-      | MisdirectedCargoConsumer | Activation Specification | jms/MisdirectedCargoConsumerAS | jms/MisdirectedCargoConsumer |
-      | DeliveredCargoConsumer | Activation Specification | jms/DeliveredCargoConsumerAS | jms/DeliveredCargoConsumer |
+      | MisdirectedCargoConsumer | Activation Specification | jms/MisdirectedCargoQueueAS | jms/MisdirectedCargoQueue |
+      | DeliveredCargoConsumer | Activation Specification | jms/DeliveredCargoQueueAS | jms/DeliveredCargoQueue |
       | HandlingEventRegistrationAttemptConsumer | Activation Specification | jms/HandlingEventRegistrationAttemptQueueAS | jms/HandlingEventRegistrationAttemptQueue |
   * Select all the beans using the select all button.
   * Select **Next**.

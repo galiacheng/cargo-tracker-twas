@@ -23,14 +23,14 @@
   		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="DeliveredCargoConsumer">
-	  <jca-adapter activation-spec-binding-name="jms/DeliveredCargoConsumerAS"
-	        destination-binding-name="jms/DeliveredCargoConsumer" />
+	  <jca-adapter activation-spec-binding-name="jms/DeliveredCargoQueueAS"
+	        destination-binding-name="jms/DeliveredCargoQueue" />
 	  <resource-ref name="jms/CargoTrackerQCF"
   		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="MisdirectedCargoConsumer">
-	  <jca-adapter activation-spec-binding-name="jms/MisdirectedCargoConsumerAS"
-	        destination-binding-name="jms/MisdirectedCargoConsumer" />
+	  <jca-adapter activation-spec-binding-name="jms/MisdirectedCargoQueueAS"
+	        destination-binding-name="jms/MisdirectedCargoQueue" />
 	  <resource-ref name="jms/CargoTrackerQCF"
   		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
