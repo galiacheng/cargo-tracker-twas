@@ -47,9 +47,7 @@ Write down the connection information:
 
 TBD
 
-## Create data source connetion in tWAS
-
-In this section, you'll configure the data source using IBM console. 
+## configure Console Preferences to synchronize changes with Nodes
 
 First, configure the Console to synchronize changes with Nodes.
 
@@ -58,8 +56,13 @@ First, configure the Console to synchronize changes with Nodes.
 * Select **Synchronize changes with Nodes**.
 * Select **Apply**. You will find message saying "Your preferences have been changed."
 
+## Create data source connetion in tWAS
+
+In this section, you'll configure the data source using IBM console. 
+
 Before configuring the data source, you need to create authentication alias for the PostgreSQL Server admin credentials. Follow the steps to create J2C authentication data.
 
+* Open the administrative console in your Web browser and login with WebSphere administrator credentials.
 * In the left navigation panel, select **Resources** -> **Security**. You will open **Global security** panel.
 * Under the **Authentication** section, expand **Java Authentication and Authorization Service**.
 * Select **J2C authentication data**.
@@ -242,4 +245,32 @@ With data source and JMS configured, you are able to deploy the application.
 * In the table that lists application, select **cargo-tracker-application**.
 * Select **Start** to start Cargo Tracker.
 
-## Test the appliation
+## Exercise Cargo Tracker Functionality
+
+1. On the main page, select **Public Tracking Interface** in new window. 
+
+   1. Enter **ABC123** and select **Track!**
+
+   1. Observe what the **next expected activity** is.
+
+1. On the main page, select **Administration Interface**, then, in the left navigation column select **Live** in a new window.  This opens a map view.
+
+   1. Mouse over the pins and find the one for **ABC123**.  Take note of the information in the hover window.
+
+1. On the main page, select **Mobile Event Logger**.  This opens up in a new, small, window.
+
+1. Drop down the menu and select **ABC123**.  Select **Next**.
+
+1. Select the **Location** using the information in the **next expected activity**.  Select **Next**.
+
+1. Select the **Event Type** using the information in the **next expected activity**.  Select **Next**.
+
+1. Select the **Voyage** using the information in the **next expected activity**.  Select **Next**.
+
+1. Set the **Completion Date** a few days in the future.  Select **Next**.
+
+1. Review the information and verify it matches the **next expected activity**.  If not, go back and fix it.  If so, select **Submit**.
+
+1. Back on the **Public Tracking Interface** select **Tracking** then enter **ABC123** and select **Track**.  Observe that different. **next expected activity** is listed.
+
+1. If desired, go back to **Mobile Event Logger** and continue performing the next activity.
