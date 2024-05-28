@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN" "http://java.sun.com/dtd/application_1_3.dtd">
+<application id="cargo-tracker">
+      <display-name>cargo-tracker.ear</display-name>
+      <module id="cargo-tracker-web">
+         <web>
+            <web-uri>cargo-tracker.war</web-uri>
+            <context-root>/cargo-tracker</context-root>
+         </web>
+      </module>
+   </application>
