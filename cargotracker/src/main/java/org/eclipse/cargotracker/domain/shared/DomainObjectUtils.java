@@ -1,6 +1,6 @@
 package org.eclipse.cargotracker.domain.shared;
 
-// TODO Make this a CDI singleton?
+// TODO [Clean Code] Make this a CDI singleton?
 public class DomainObjectUtils {
 
 	/**
@@ -13,11 +13,6 @@ public class DomainObjectUtils {
 	public static <T> T nullSafe(T actual, T safe) {
 		return actual == null ? safe : actual;
 	}
-
-	// TODO wrappers for some of the commons-lang code:
-	//
-	// EqualsBuilder that uses sameIdentity/sameValue,
-	// better validation (varargs etc)
 
 	/**
 	 * Prevent instantiation.

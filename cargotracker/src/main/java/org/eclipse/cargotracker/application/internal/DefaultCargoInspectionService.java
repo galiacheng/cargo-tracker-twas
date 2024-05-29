@@ -16,7 +16,7 @@ import org.eclipse.cargotracker.domain.model.handling.HandlingEventRepository;
 import org.eclipse.cargotracker.domain.model.handling.HandlingHistory;
 import org.eclipse.cargotracker.infrastructure.events.cdi.CargoInspected;
 
-//TODO Adopt the Date-Time API.
+//TODO [Jakarta EE 8] Adopt the Date-Time API.
 @Stateless
 public class DefaultCargoInspectionService implements CargoInspectionService {
 
@@ -31,7 +31,8 @@ public class DefaultCargoInspectionService implements CargoInspectionService {
 	@CargoInspected
 	private Event<Cargo> cargoInspected;
 
-	private static final Logger logger = Logger.getLogger(DefaultCargoInspectionService.class.getName());
+	@Inject
+	private Logger logger;
 
 	@Override
 	public void inspectCargo(TrackingId trackingId) {

@@ -20,7 +20,7 @@ import org.eclipse.cargotracker.domain.model.location.LocationRepository;
 import org.eclipse.cargotracker.domain.model.location.UnLocode;
 import org.eclipse.cargotracker.domain.service.RoutingService;
 
-// TODO Adopt the Date-Time API.
+// TODO [Jakarta EE 8] Adopt the Date-Time API.
 @Stateless
 public class DefaultBookingService implements BookingService {
 
@@ -30,8 +30,8 @@ public class DefaultBookingService implements BookingService {
 	private LocationRepository locationRepository;
 	@Inject
 	private RoutingService routingService;
-	// TODO See if the logger can be injected.
-	private static final Logger logger = Logger.getLogger(DefaultBookingService.class.getName());
+	@Inject
+	private Logger logger;
 
 	@Override
 	public TrackingId bookNewCargo(UnLocode originUnLocode, UnLocode destinationUnLocode, Date arrivalDeadline) {
@@ -96,4 +96,5 @@ public class DefaultBookingService implements BookingService {
 
 		logger.log(Level.INFO, "Changed deadline for cargo {0} to {1}", new Object[] { trackingId, newDeadline });
 	}
+
 }

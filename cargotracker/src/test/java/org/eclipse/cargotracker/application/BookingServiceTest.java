@@ -53,6 +53,7 @@ import org.eclipse.cargotracker.domain.shared.DomainObjectUtils;
 import org.eclipse.cargotracker.domain.shared.NotSpecification;
 import org.eclipse.cargotracker.domain.shared.OrSpecification;
 import org.eclipse.cargotracker.domain.shared.Specification;
+import org.eclipse.cargotracker.infrastructure.logging.LoggerProducer;
 import org.eclipse.cargotracker.infrastructure.persistence.jpa.JpaCargoRepository;
 import org.eclipse.cargotracker.infrastructure.persistence.jpa.JpaHandlingEventRepository;
 import org.eclipse.cargotracker.infrastructure.persistence.jpa.JpaLocationRepository;
@@ -79,7 +80,7 @@ import org.junit.runner.RunWith;
  * Ensure a Payara instance is running locally before this test is executed,
  * with the default user name and password.
  */
-//TODO Move to the Java Date-Time API for date manipulation. Also avoid hard-coded dates.
+//TODO [Jakarta EE 8] Move to the Java Date-Time API for date manipulation. Also avoid hard-coded dates.
 @RunWith(Arquillian.class)
 public class BookingServiceTest {
 
@@ -116,7 +117,8 @@ public class BookingServiceTest {
 				// Infrastructure layer components.
 				.addClass(JpaCargoRepository.class).addClass(JpaVoyageRepository.class)
 				.addClass(JpaHandlingEventRepository.class).addClass(JpaLocationRepository.class)
-				.addClass(ExternalRoutingService.class).addClass(JsonMoxyConfigurationContextResolver.class)
+				.addClass(ExternalRoutingService.class).addClass(LoggerProducer.class)
+				.addClass(JsonMoxyConfigurationContextResolver.class)
 				// Interface components
 				.addClass(TransitPath.class).addClass(TransitEdge.class)
 				// Third-party system simulator
