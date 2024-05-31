@@ -83,12 +83,8 @@ az postgres flexible-server firewall-rule create \
   --start-ip-address "0.0.0.0" \
   --end-ip-address "0.0.0.0"
 
-echo "Database user name:"
-echo $DB_ADMIN_USER_NAME
-echo "Database password:"
-echo $DB_ADMIN_PSW
 echo "Connection string:"
-echo "jdbc:postgresql://${${DB_SERVER_NAME}}.postgres.database.azure.com:5432/${DB_NAME}"
+echo "jdbc:postgresql://${DB_SERVER_NAME}.postgres.database.azure.com:5432/${DB_NAME}?${DB_ADMIN_USER_NAME}&password=${DB_ADMIN_PSW}&sslmode=require"
 ```
 
 ## Install PostgreSQL driver in tWAS
@@ -143,24 +139,7 @@ First, configure the Console to synchronize changes with Nodes. The changes will
 
 ## Create data source connetion in tWAS
 
-In this section, you'll configure the data source using IBM console. 
-
-Before configuring the data source, you need to create authentication alias for the PostgreSQL Server admin credentials. Follow the steps to create J2C authentication data.
-
-* Open the administrative console in your Web browser and login with WebSphere administrator credentials.
-* In the left navigation panel, select **Resources** -> **Security**. You will open **Global security** panel.
-* Under the **Authentication** section, expand **Java Authentication and Authorization Service**.
-* Select **J2C authentication data**.
-* Select **New...** button and input values:
-  * For **Alias**, fill in `postgresql-cargotracker-auth`. 
-  * For **User ID**, fill in PostgreSQL database user name that is printed previously. 
-  * For **Password**, fill in PostgreSQL database password that is printed previously.
-  * Select **Apply**.
-  * Select **OK**. You will find the authentication listed in the table.
-  * Select **Apply**.
-  * Select **Save** to save the configuration.You will return back to the **Global security**.
-  * Select **Apply**.
-  * Select **Save** to save the configuration.
+In this section, you'll configure the data source using IBM console.
 
 Current tWAS cluster does not ship with PostgreSQL database provider. Follow the steps create a provider:
 
@@ -174,7 +153,7 @@ Current tWAS cluster does not ship with PostgreSQL database provider. Follow the
   * In **Step 2**:
     * For **Class path**, fill in `/datadrive/IBM/WebSphere/ND/V9/postgresql/postgresql.jar`, the same value with the printed "PostgreSQL driver path" previously.
     * Select **Next**.
-  * In **Step 2**:
+  * In **Step 3**:
     * Select **Finish**.
 * Select **Save** to save the configuration.
 * To load the drive, you have to restart the cluter.
@@ -201,14 +180,14 @@ Follow the steps to create data source:
     * Select **Next**.
   * In **Step 3**:
     * For **Data store helper class name**, fill in `com.ibm.websphere.rsadapter.GenericDataStoreHelper`.
-    * Select *Next**.
+    * Select **Next**.
   * In **Step 4**:
-    * Under **Component-managed authentication alias**, select the authentication alias `postgresql-cargotracker-auth`.
+    * Under **Component-managed authentication alias**, select the authentication alias `none`.
     * Select **Next**.
   * In **Summary**, select **Finish**.
   * Select **Save** to save the configuration.
   * Select the data source **CargoTrackerDB** in the table, continue to configure URL.
-    * Select **Custom properties**. From the table, from column **Name**, find the row whose name is **URL**.
+    * Select **Custom properties**. From the table, from column **Name**, find the row whose name is **URL**. If no, select **New...** to create one.
     * Select **URL**. Fill in value with database connection string that is printed previously. 
     * Select **Apply**. 
     * Select **OK**.
