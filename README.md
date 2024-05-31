@@ -11,6 +11,7 @@ Environment setup：
 * Ensure you are running Java SE 8.
 * Make sure JAVA_HOME is set.
 * Make sure Maven is set up properly.
+* AZ CLI, this project is tested with `2.58.0`.
 
 Go to the project root and run `mvn clean install` to build the application. You will get:
 
@@ -25,31 +26,115 @@ After the deployment finishes, select the **Outputs** section on the left panel 
 
 Return back to this project.
 
+## Sign in Azure
+
+If you haven't already, sign into your Azure subscription by using the `az login` command and follow the on-screen directions.
+
+```
+az login --use-device-code
+```
+
+If you have multiple Azure tenants associated with your Azure credentials, you must specify which tenant you want to sign in to. You can do this with the `--tenant` option. For example, `az login --tenant contoso.onmicrosoft.com`.
+
 ## Create Azure Database for PostgreSQL Flexible Server
 
-Cargo Tracker requires a database for persistence. This project creates a PostgreSQL Flexible Server for it. Follow [Quickstart: Create an Azure Database for PostgreSQL - Flexible Server instance in the Azure portal](https://learn.microsoft.com/azure/postgresql/flexible-server/quickstart-create-server-portal), you will create a PostgreSQL Flexible Server with a database `mypgsqldb`.
+Cargo Tracker requires a database for persistence. This project creates a PostgreSQL Flexible Server for it. 
 
-After the database is up, continue to configure Firewall rules to allow access from WebSphere servers.
+Run the following commands to create PostgreSQL database.
 
-* Open the resource group that has PostgreSQL Flexible Server created.
-* Select the PostgreSQL Flexible Server.
-* Select **Settings** -> **Connection security** -> **Firewall rules**.
-* Next to **Allow access to Azure services**, select **Yes**.
-* Select **Save** to save the config.
+```
+export RESOURCE_GROUP_NAME=<the-resource-group-your-deploy-twas>
+export DB_SERVER_NAME=postgresql$(date +%s)
+export DB_NAME=cargotracker
+export DB_ADMIN_USER_NAME=wasadmin
+export DB_ADMIN_PSW=Secret123456
+export LOCATION=eastus
+```
 
-Write down the connection information:
+Create server and database.
 
-* Server name.
-* Server admin login name.
-* Server admin password.
+```
+az postgres flexible-server create \
+  --resource-group ${RESOURCE_GROUP_NAME} \
+  --name ${DB_SERVER_NAME} \
+  --location ${LOCATION} \
+  --admin-user ${DB_ADMIN_USER_NAME} \
+  --admin-password ${DB_ADMIN_PSW} \
+  --version 16 \
+  --public-access 0.0.0.0 \
+  --tier Burstable \
+  --sku-name Standard_B1ms \
+  --yes
+
+az postgres flexible-server db create \
+  --resource-group ${RESOURCE_GROUP_NAME} \
+  --server-name ${DB_SERVER_NAME} \
+  --database-name ${DB_NAME}
+```
+
+Configure firewall rule.
+
+```
+echo "Allow Access To Azure Services"
+az postgres flexible-server firewall-rule create \
+  -g ${RESOURCE_GROUP_NAME} \
+  -n ${DB_SERVER_NAME} \
+  -r "AllowAllWindowsAzureIps" \
+  --start-ip-address "0.0.0.0" \
+  --end-ip-address "0.0.0.0"
+
+echo "Database user name:"
+echo $DB_ADMIN_USER_NAME
+echo "Database password:"
+echo $DB_ADMIN_PSW
+echo "Connection string:"
+echo "jdbc:postgresql://${${DB_SERVER_NAME}}.postgres.database.azure.com:5432/${DB_NAME}"
+```
 
 ## Install PostgreSQL driver in tWAS
 
-TBD
+The tWAS installation does not include the PostgreSQL driver. Follow the steps to install in manually.
 
-## configure Console Preferences to synchronize changes with Nodes
+Download PostgreSQL driver and save it in each managed VM.
 
-First, configure the Console to synchronize changes with Nodes.
+```
+export POSTGRESQL_DRIVER_URL="https://jdbc.postgresql.org/download/postgresql-42.5.1.jar"
+export DRIVER_TARGET_PATH="/datadrive/IBM/WebSphere/ND/V9/postgresql"
+
+vmList=$(az vm list --resource-group ${RESOURCE_GROUP_NAME} --query [].name -otsv | grep "managed")
+
+for vm in ${vmList}
+do 
+    az vm run-command invoke \
+      --resource-group $RESOURCE_GROUP_NAME \
+      --name ${vm} \
+      --command-id RunShellScript \
+      --scripts "sudo mkdir ${DRIVER_TARGET_PATH}; sudo curl ${POSTGRESQL_DRIVER_URL} -o ${DRIVER_TARGET_PATH}/postgresql.jar"
+done
+
+echo "PostgreSQL driver path:"
+echo ${DRIVER_TARGET_PATH}/postgresql.jar
+```
+
+You should find success message for each VM like:
+
+```
+{
+  "value": [
+    {
+      "code": "ProvisioningState/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": "Enable succeeded: \n[stdout]\n\n[stderr]\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100 1022k  100 1022k    0     0  1932k      0 --:--:-- --:--:-- --:--:-- 1936k\n",
+      "time": null
+    }
+  ]
+}
+```
+
+## Configure Console Preferences to synchronize changes with Nodes
+
+First, configure the Console to synchronize changes with Nodes. The changes will be applied to all nodes once you save them.
 
 * Open the administrative console in your Web browser and login with WebSphere administrator credentials.
 * In the left navigation panel, select **System administration** -> **Console Preference**.
@@ -68,14 +153,39 @@ Before configuring the data source, you need to create authentication alias for 
 * Select **J2C authentication data**.
 * Select **New...** button and input values:
   * For **Alias**, fill in `postgresql-cargotracker-auth`. 
-  * For **User ID**, fill in PostgreSQL Server admin login name. 
-  * For **Password**, fill in PostgreSQL Server admin login password.
+  * For **User ID**, fill in PostgreSQL database user name that is printed previously. 
+  * For **Password**, fill in PostgreSQL database password that is printed previously.
   * Select **Apply**.
   * Select **OK**. You will find the authentication listed in the table.
   * Select **Apply**.
   * Select **Save** to save the configuration.You will return back to the **Global security**.
   * Select **Apply**.
   * Select **Save** to save the configuration.
+
+Current tWAS cluster does not ship with PostgreSQL database provider. Follow the steps create a provider:
+
+* In the left navigation panel, select **Resources** -> **JDBC** -> **JDBC providers**.
+* In the **Data source** panel, change scope with **Cluster=MyCluster**. Then select **New...** button to create a new data source.
+  * In **Step 1**:
+    * For **Database type**, select **User-defined**.
+    * For **Implementation class name**, fill in value `org.postgresql.ds.PGConnectionPoolDataSource`.
+    * For **Name**, fill in `PostgreSQLJDBCProvider`.
+    * Select **Next**.
+  * In **Step 2**:
+    * For **Class path**, fill in `/datadrive/IBM/WebSphere/ND/V9/postgresql/postgresql.jar`, the same value with the printed "PostgreSQL driver path" previously.
+    * Select **Next**.
+  * In **Step 2**:
+    * Select **Finish**.
+* Select **Save** to save the configuration.
+* To load the drive, you have to restart the cluter.
+  * In the left navigation panel, select **Servers** -> **Clusters** -> **WebSphere application server clusters**.
+  * Check the box next to **MyCluster**.
+  * Select **Stop** to stop the cluster. 
+    * Select **OK** in the **Stop cluste** page.
+    * Refresh the status by clicking refresh button next to **Status** column.
+    * Wait for the cluster changes to **Stop** state.
+  * Check the box next to **MyCluster**.
+  * Select **Start** to start the cluster. Refresh the status by clicking refresh button next to **Status** column. Do not move on before the status is in **Started** state.
 
 Follow the steps to create data source:
 
@@ -99,7 +209,7 @@ Follow the steps to create data source:
   * Select **Save** to save the configuration.
   * Select the data source **CargoTrackerDB** in the table, continue to configure URL.
     * Select **Custom properties**. From the table, from column **Name**, find the row whose name is **URL**.
-    * Select **URL**. Fill in value with `jdbc:postgresql://<postgresql-server-name>:5432/mypgsqldb`, replace `<postgresql-server-name>` with the PostgreSQL Server name you wrote down. 
+    * Select **URL**. Fill in value with database connection string that is printed previously. 
     * Select **Apply**. 
     * Select **OK**.
     * Select **Save** to save the configuration.
