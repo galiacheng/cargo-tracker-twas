@@ -1,6 +1,6 @@
 # Run a Java EE 7 application in IBM WebSphere Application Server Traditional Network Deployment V9 on Azure VMs
 
-The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well known Jakata EE sample application Cargo Tracker V1.0. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
+The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well-known Jakarta EE sample application Cargo Tracker V1.0. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
 
 # Getting Started
 
@@ -20,7 +20,7 @@ Go to the project root and run `mvn clean install` to build the application. You
 
 ## Standup WebSphere Application Server (traditional) Cluster on Azure VMs
 
-The project leverages [Azure Marketplace offer for WebSphere Application Server](https://aka.ms/websphere-on-azure-portal) to standup a tWAS cluster. Follow [Deploy WebSphere Application Server (traditional) Cluster on Azure Virtual Machines](https://learn.microsoft.com/azure/developer/java/ee/traditional-websphere-application-server-virtual-machines?tabs=basic), you will deploy a cluster with 4 members. Write down your credentials for WebSpere administrator.
+The project leverages [Azure Marketplace offer for WebSphere Application Server](https://aka.ms/websphere-on-azure-portal) to standup a tWAS cluster. Follow [Deploy WebSphere Application Server (traditional) Cluster on Azure Virtual Machines](https://learn.microsoft.com/azure/developer/java/ee/traditional-websphere-application-server-virtual-machines?tabs=basic), you will deploy a cluster with 4 members. Write down your credentials for WebSphere administrator.
 
 After the deployment finishes, select the **Outputs** section on the left panel and write down the administrative console and IHS console URLs.
 
@@ -87,7 +87,7 @@ echo "Connection string:"
 echo "jdbc:postgresql://${DB_SERVER_NAME}.postgres.database.azure.com:5432/${DB_NAME}?user=${DB_ADMIN_USER_NAME}&password=${DB_ADMIN_PSW}&sslmode=require"
 ```
 
-## Install PostgreSQL driver in tWAS
+## Install PostgreSQL driver
 
 The tWAS installation does not include the PostgreSQL driver. Follow the steps to install in manually.
 
@@ -137,7 +137,7 @@ First, configure the Console to synchronize changes with Nodes. The changes will
 * Select **Synchronize changes with Nodes**.
 * Select **Apply**. You will find message saying "Your preferences have been changed."
 
-## Create data source connetion in tWAS
+## Create data source connection in tWAS
 
 In this section, you'll configure the data source using IBM console.
 
@@ -156,7 +156,7 @@ Current tWAS cluster does not ship with PostgreSQL database provider. Follow the
   * In **Step 3**:
     * Select **Finish**.
 * Select **Save** to save the configuration.
-* To load the drive, you have to restart the cluter.
+* To load the drive, you have to restart the cluster.
   * In the left navigation panel, select **Servers** -> **Clusters** -> **WebSphere application server clusters**.
   * Check the box next to **MyCluster**.
   * Select **Stop** to stop the cluster. 
@@ -248,7 +248,7 @@ Create JMS queue connection factories.
     * For **Name**, fill in `CargoTrackerQCF`.
     * For **JNDI name**, fill in `jms/CargoTrackerQCF`
   * Under **Connection**:
-    * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
+    * For **Bus name**, select `CargoTrackerBus`, the one created previously.
   * Select **Apply**.
   * Select **Save** to save the configuration.
 
@@ -266,7 +266,7 @@ Create JMS queues.
   * Under **Connection**:
     * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
     * For **Queue name**, select **Create Service Integration Bus Destination**. The selection causes opening a new panel. Input required value.
-        * For **Identity**, input the same value with queue name, e.g `HandlingEventRegistrationAttemptQueue`.
+        * For **Identity**, input the same value with queue name, e.g. `HandlingEventRegistrationAttemptQueue`.
         * Select **Next**.
         * For **Bus member**, select **Cluster=MyCluster**.
         * Select **Next**.
@@ -300,7 +300,7 @@ Create Activation specifications.
 With data source and JMS configured, you are able to deploy the application.
 
 * Open the administrative console in your Web browser and login with WebSphere administrator credentials.
-* In the left navigation panel, select **Applications** -> **Applications Types** -> **WebSphere enterprise applications**.
+* In the left navigation panel, select **Applications** -> **Application Types** -> **WebSphere enterprise applications**.
 * In the **Enterprise Applications** panel, select **Install**.
   * For **Path to the new application**, select **Local file system**.
   * Select **Choose File**, a wizard for uploading files opens.
