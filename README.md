@@ -84,7 +84,7 @@ az postgres flexible-server firewall-rule create \
   --end-ip-address "0.0.0.0"
 
 echo "Connection string:"
-echo "jdbc:postgresql://${DB_SERVER_NAME}.postgres.database.azure.com:5432/${DB_NAME}?${DB_ADMIN_USER_NAME}&password=${DB_ADMIN_PSW}&sslmode=require"
+echo "jdbc:postgresql://${DB_SERVER_NAME}.postgres.database.azure.com:5432/${DB_NAME}?user=${DB_ADMIN_USER_NAME}&password=${DB_ADMIN_PSW}&sslmode=require"
 ```
 
 ## Install PostgreSQL driver in tWAS
@@ -182,7 +182,6 @@ Follow the steps to create data source:
     * For **Data store helper class name**, fill in `com.ibm.websphere.rsadapter.GenericDataStoreHelper`.
     * Select **Next**.
   * In **Step 4**:
-    * Under **Component-managed authentication alias**, select the authentication alias `none`.
     * Select **Next**.
   * In **Summary**, select **Finish**.
   * Select **Save** to save the configuration.
@@ -304,7 +303,7 @@ With data source and JMS configured, you are able to deploy the application.
 * In the left navigation panel, select **Applications** -> **Applications Types** -> **WebSphere enterprise applications**.
 * In the **Enterprise Applications** panel, select **Install**.
   * For **Path to the new application**, select **Local file system**.
-  * Select **Choose File**, a wizard for uploading files will be open.
+  * Select **Choose File**, a wizard for uploading files opens.
   * Locate to `cargotracker-was-application/target/cargo-tracker.ear` and upload the EAR file.
   * Select **Next**.
   * Select **Next**.
@@ -327,7 +326,7 @@ With data source and JMS configured, you are able to deploy the application.
   * In **Step 5**, select **Next**.
   * In **Step 6**:
     * Check the box next to **cargo-tracker.war,WEB-INF/ejb-jar.xml**.
-    * Check the box next to **	cargo-tracker.war,WEB-INF/web.xml**.
+    * Check the box next to **cargo-tracker.war,WEB-INF/web.xml**.
     * Select **Next**.
 * Select **Finish**.
 * Select **Save** to save the configuration.
