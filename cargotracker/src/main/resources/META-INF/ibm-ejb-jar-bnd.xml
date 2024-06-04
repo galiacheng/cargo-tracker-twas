@@ -7,31 +7,21 @@
   <message-driven name="RejectedRegistrationAttemptsConsumer">
 	  <jca-adapter activation-spec-binding-name="jms/RejectedRegistrationAttemptsQueueAS"
 	        destination-binding-name="jms/RejectedRegistrationAttemptsQueue" />
-	  <resource-ref name="jms/CargoTrackerQCF"
-  		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="HandlingEventRegistrationAttemptConsumer">
 	  <jca-adapter activation-spec-binding-name="jms/HandlingEventRegistrationAttemptQueueAS"
 	        destination-binding-name="jms/HandlingEventRegistrationAttemptQueue" />
-	  <resource-ref name="jms/CargoTrackerQCF"
-  		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="CargoHandledConsumer">
 	  <jca-adapter activation-spec-binding-name="jms/CargoHandledQueueAS"
 	        destination-binding-name="jms/CargoHandledQueue" />
-	  <resource-ref name="jms/CargoTrackerQCF"
-  		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="DeliveredCargoConsumer">
 	  <jca-adapter activation-spec-binding-name="jms/DeliveredCargoQueueAS"
 	        destination-binding-name="jms/DeliveredCargoQueue" />
-	  <resource-ref name="jms/CargoTrackerQCF"
-  		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
   <message-driven name="MisdirectedCargoConsumer">
 	  <jca-adapter activation-spec-binding-name="jms/MisdirectedCargoQueueAS"
 	        destination-binding-name="jms/MisdirectedCargoQueue" />
-	  <resource-ref name="jms/CargoTrackerQCF"
-  		binding-name="jms/CargoTrackerQCF" />
   </message-driven>
 </ejb-jar-bnd>
