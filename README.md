@@ -227,26 +227,21 @@ Create JMS Bus.
 * For **Select servers, cluster or WebSphere MQ server**, select **Cluster**. 
 * Next to **Cluster**, from the dropdown, select **MyCluster**.
 * Select **Next**.
-* In **Step 1.1.1**, select **Data store**.
+* In **Step 1.1.1**, select **File store**.
 * Select **Next**.
-* In **Step 1.1.2**, select hyperlink **MyCluster.000-CargoTrackerBus**.
-    * For **Data source JNDI name**, fill in `jdbc/CargoTrackerDB`, the data source created before.
+* In **Step 1.1.2**:
+    * For **Log directory path**, fill in `/datadrive/IBM/WebSphere/ND/V9/postgresql` or any path you expect.
+    * For **Permanent store directory path**, fill in `/datadrive/IBM/WebSphere/ND/V9/postgresql` or any path you expect.
     * Select **Next**.
 * Select **Next**.
 * Select **Next**.
 * Select **Finish**.
 * Select **Save** to save the configuration.
 
-Create JMS queue connection factories.
+Modify default JMS connection factories.
 
-* In the left navigation panel, select **Resources** -> **JMS** -> **Queue connection factories**.
-* Switch scope to **Cluster=MyCluster**.
-* Select **New**.
-  * For **Select JMS resource provider**, select **Default messaging provider**.
-  * Select **OK**.
-  * In **General Properties** panel, under **Administration**:
-    * For **Name**, fill in `CargoTrackerQCF`.
-    * For **JNDI name**, fill in `jms/CargoTrackerQCF`
+* In the left navigation panel, select **Resources** -> **JMS** -> **Connection factories**.
+* Select **built-in-jms-connectionfactory**.
   * Under **Connection**:
     * For **Bus name**, select `CargoTrackerBus`, the one created previously.
   * Select **Apply**.
@@ -289,7 +284,7 @@ Create Activation specifications.
   * Under **Connection**:
     * For **Destination type**, select **Queue**.
     * For **Destination lookup**, fill in corresponding queue JNDI name listed in the same row of above table. In this example, value is `jms/HandlingEventRegistrationAttemptQueue`.
-    * For **Connection factory lookup**, fill in `jms/CargoTrackerQCF`.
+    * For **Connection factory lookup**, fill in `jms/built-in-jms-connectionfactory`.
     * For **Bus name**, select `CargoTrackerBus`, the one created in previously.
   * Select **Apply**.
   * Select **Save** to save the configuration.
