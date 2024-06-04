@@ -65,4 +65,34 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>${webapp.graphTraversalUrl}</env-entry-value>
 	</env-entry>
+	<resource-ref>
+		<description>Cargo Handled Queue</description>
+		<res-ref-name>jms/CargoHandledQueue</res-ref-name>
+		<res-type>javax.jms.Queue</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<resource-ref>
+		<description>Misdirected Cargo Queue</description>
+		<res-ref-name>jms/MisdirectedCargoQueue</res-ref-name>
+		<res-type>javax.jms.Queue</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<resource-ref>
+		<description>Delivered Cargo Queue</description>
+		<res-ref-name>jms/DeliveredCargoQueue</res-ref-name>
+		<res-type>javax.jms.Queue</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<resource-ref>
+		<description>Handling Event Queue</description>
+		<res-ref-name>jms/HandlingEventRegistrationAttemptQueue</res-ref-name>
+		<res-type>javax.jms.Queue</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<resource-ref>
+		<description>Handling Event Queue</description>
+		<res-ref-name>jms/RejectedRegistrationAttemptsQueue</res-ref-name>
+		<res-type>javax.jms.Queue</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 </web-app>

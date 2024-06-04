@@ -1,0 +1,16 @@
+<web-bnd xmlns="http://websphere.ibm.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee 
+                             http://websphere.ibm.com/xml/ns/javaee/ibm-web-bnd_1_0.xsd"
+         version="1.0">
+    <resource-ref name="jms/CargoHandledQueue"
+                  binding-name="jms/CargoHandledQueue"/>
+    <resource-ref name="jms/MisdirectedCargoQueue"
+                  binding-name="jms/MisdirectedCargoQueue"/>
+    <resource-ref name="jms/DeliveredCargoQueue"
+                  binding-name="jms/DeliveredCargoQueue"/>
+    <resource-ref name="jms/HandlingEventRegistrationAttemptQueue"
+                  binding-name="jms/HandlingEventRegistrationAttemptQueue"/>
+    <resource-ref name="jms/RejectedRegistrationAttemptsQueue"
+                  binding-name="jms/RejectedRegistrationAttemptsQueue"/>
+</web-bnd>
