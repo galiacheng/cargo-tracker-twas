@@ -12,7 +12,7 @@ import javax.jms.MessageListener;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:app/jms/DeliveredCargoQueue") })
+		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:comp/env/jms/DeliveredCargoQueue") })
 public class DeliveredCargoConsumer implements MessageListener {
 
     @Inject

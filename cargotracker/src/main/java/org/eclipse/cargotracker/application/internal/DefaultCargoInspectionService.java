@@ -36,6 +36,7 @@ public class DefaultCargoInspectionService implements CargoInspectionService {
 
 	@Override
 	public void inspectCargo(TrackingId trackingId) {
+		logger.info("Inspecting cargo");
 		Cargo cargo = cargoRepository.find(trackingId);
 
 		if (cargo == null) {
@@ -44,14 +45,17 @@ public class DefaultCargoInspectionService implements CargoInspectionService {
 		}
 
 		HandlingHistory handlingHistory = handlingEventRepository.lookupHandlingHistoryOfCargo(trackingId);
+		logger.log(Level.INFO, "Cargo last event is {0}", handlingHistory.getMostRecentlyCompletedEvent());
 
 		cargo.deriveDeliveryProgress(handlingHistory);
+		logger.log(Level.INFO, "Cargo next location is {0}", cargo.getDelivery().getNextExpectedActivity().getLocation());
 
 		if (cargo.getDelivery().isMisdirected()) {
 			applicationEvents.cargoWasMisdirected(cargo);
 		}
 
 		if (cargo.getDelivery().isUnloadedAtDestination()) {
+			logger.info("Cargo is unloaded at destination");
 			applicationEvents.cargoHasArrived(cargo);
 		}
 

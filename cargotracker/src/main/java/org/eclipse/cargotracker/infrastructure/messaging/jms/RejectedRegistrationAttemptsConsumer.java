@@ -12,7 +12,7 @@ import javax.jms.MessageListener;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:app/jms/RejectedRegistrationAttemptsQueue") })
+		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:comp/env/jms/RejectedRegistrationAttemptsQueue") })
 public class RejectedRegistrationAttemptsConsumer implements MessageListener {
 
     @Inject
