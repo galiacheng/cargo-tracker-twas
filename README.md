@@ -72,6 +72,22 @@ az postgres flexible-server db create \
   --database-name ${DB_NAME}
 ```
 
+Set server parameters.
+
+```
+az postgres server configuration set \
+  --resource-group ${RESOURCE_GROUP_NAME} \
+  --server-name ${DB_SERVER_NAME} \
+  --name max_connections \
+  --value 200
+
+az postgres server configuration set \
+  --resource-group ${RESOURCE_GROUP_NAME} \
+  --server-name ${DB_SERVER_NAME} \
+  --name max_prepared_transactions \
+  --value 50
+```
+
 Configure firewall rule.
 
 ```
@@ -147,7 +163,7 @@ Current tWAS cluster does not ship with PostgreSQL database provider. Follow the
 * In the **Data source** panel, change scope with **Cluster=MyCluster**. Then select **New...** button to create a new data source.
   * In **Step 1**:
     * For **Database type**, select **User-defined**.
-    * For **Implementation class name**, fill in value `org.postgresql.ds.PGConnectionPoolDataSource`.
+    * For **Implementation class name**, fill in value `org.postgresql.xa.PGXADataSource`.
     * For **Name**, fill in `PostgreSQLJDBCProvider`.
     * Select **Next**.
   * In **Step 2**:
