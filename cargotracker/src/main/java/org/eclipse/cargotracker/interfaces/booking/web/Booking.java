@@ -154,10 +154,6 @@ public class Booking implements Serializable {
 			return null;
 		}
 
-		return "/admin/dashboard.xhtml";
-	}
-
-	public String getReturnValue() {
-		return "/admin/dashboard.xhtml";
+		return "returnFromBookingFlow";
 	}
 }
