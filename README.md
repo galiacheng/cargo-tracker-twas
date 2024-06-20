@@ -415,7 +415,7 @@ CDI error example:
 
 Cargo Tracker uses message-driven beans in JMS module. In WebSphere Application Server, activation specifications are the standardized way to manage and configure the relationship between an MDB. They combine the configuration of connectivity, the Java Message Service (JMS) destination and the runtime characteristics of the MDB, within a single object. For more information, see [Message-driven beans, activation specifications, and listener ports](https://www.ibm.com/docs/fi/was/9.0.5?topic=retrieval-message-driven-beans-activation-specifications-listener-ports).
 
-The sample create service bus, queues and activation specifications and use the default connection factory:
+The sample creates service bus, queues and activation specifications using the default connection factory:
 
 1. Service Bus: `CargoTrackerBus`
 
