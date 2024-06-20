@@ -1,10 +1,10 @@
-# Run a Java EE 7 application in IBM WebSphere Application Server Traditional Network Deployment V9 on Azure VMs
+# Running a Java EE 7 Application on IBM WebSphere Application Server Traditional Network Deployment V9 with Azure VMs
 
-The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well-known Jakarta EE sample application Cargo Tracker V1.0. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
+This project showcases how to configure and deploy a Java EE 7 application on IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 using Azure VMs. The project is based on the well-known Jakarta EE sample application Cargo Tracker V1.0. For more details about the Cargo Tracker project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
 
 # Table of Contents
 
-1. [Getting Started](#getting-started)
+1. [Get Started](#get-started)
     - [Environment setup](#environment-setup)
 1. [Standup WebSphere Application Server (traditional) Cluster on Azure VMs](#standup-websphere-application-server-traditional-cluster-on-azure-vms)
 1. [Sign in Azure](#sign-in-azure)
@@ -18,29 +18,26 @@ The project demonstrates how you can configure and run a Java EE 7 application i
 1. [Migration summary](#migration-summary)
 
 
-# Getting Started
+# Get Started
 
 Environment setup：
 
 * An Azure subscription.
-* Get the project source code.
-* Ensure you are running Java SE 8.
-* Make sure JAVA_HOME is set.
-* Make sure Maven is set up properly.
-* AZ CLI, this project is tested with `2.58.0`.
+* Obtained the project source code.
+* Java SE 8 installed and JAVA_HOME configured.
+* Maven properly set up.
+* Azure CLI version 2.58.0 or later installed..
 
-Go to the project root and run `mvn clean install` to build the application. You will get:
+Navigate to the project root and run `mvn clean install` to build the application. This will generate:
 
-* A WAR package in `cargotracker/target/cargo-tracker.war`.
-* An EAR package in `cargotracker-was-application/target/cargo-tracker.ear`, which will be deployed to tWAS.
+* A WAR package at `cargotracker/target/cargo-tracker.war`.
+* An EAR package at `cargotracker-was-application/target/cargo-tracker.ear`, which will be deployed on tWAS.
 
 ## Standup WebSphere Application Server (traditional) Cluster on Azure VMs
 
-The project leverages [Azure Marketplace offer for WebSphere Application Server](https://aka.ms/websphere-on-azure-portal) to standup a tWAS cluster. Follow [Deploy WebSphere Application Server (traditional) Cluster on Azure Virtual Machines](https://learn.microsoft.com/azure/developer/java/ee/traditional-websphere-application-server-virtual-machines?tabs=basic), you will deploy a cluster with 4 members. Write down your credentials for WebSphere administrator.
+To deploy a tWAS cluster using [Azure Marketplace offer](https://aka.ms/websphere-on-azure-portal), follow the instructions in [Deploy WebSphere Application Server (traditional) Cluster on Azure Virtual Machines](https://learn.microsoft.com/azure/developer/java/ee/traditional-websphere-application-server-virtual-machines?tabs=basic). Ensure you create a cluster with 4 members and note down your WebSphere administrator credentials from the deployment outputs.
 
-After the deployment finishes, select the **Outputs** section on the left panel and write down the administrative console and IHS console URLs.
-
-Return back to this project.
+After deployment, retrieve the administrative console and IHS console URLs from the **Outputs** section.
 
 ## Sign in Azure
 
@@ -160,7 +157,7 @@ You should find success message for each VM like:
 }
 ```
 
-## Configure Console Preferences to synchronize changes with Nodes
+## Configuring Console Preferences for Node Synchronization
 
 First, configure the Console to synchronize changes with Nodes. The changes will be applied to all nodes once you save them.
 
@@ -396,7 +393,7 @@ With data source and JMS configured, you are able to deploy the application.
 
 ## Packaging and deploying as enterprise application
 
-To resolve CDI error, the sample pack the original Cargo Tracker source code as enterprise application.
+To resolve CDI error, the sample packs the original Cargo Tracker source code as enterprise application.
 
 Structure of the application:
 
@@ -446,4 +443,30 @@ The general flow is:
 
 ## XA Data Source
 
+XA Data Source refers to a type of data source in Java EE applications that supports distributed transactions using the XA (Extended Architecture) protocol. XA is a two-phase commit protocol that allows transactions to be distributed across multiple resources, ensuring data integrity and consistency across different systems.
+
+This sample configure XA PostgreSQL, using `org.postgresql.xa.PGXADataSource`.
+
 ## FlowScoped Faces refactoring
+
+This sample use a Java class to define the flow as following:
+
+```java
+public class BookingFlow implements Serializable {
+
+    @Produces
+    @FlowDefinition
+    public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
+        String flowId = "booking";
+        flowBuilder.id("", flowId);
+        flowBuilder.viewNode(flowId, "/booking/booking.xhtml").markAsStartNode();
+        flowBuilder.viewNode("booking-destination", "/booking/booking-destination.xhtml");
+        flowBuilder.viewNode("booking-date", "/booking/booking-date.xhtml");
+        flowBuilder.returnNode("returnFromBookingFlow").fromOutcome("/admin/dashboard.xhtml");
+        
+        return flowBuilder.getFlow();
+    }
+}
+```
+
+Besides, in the method `#{booking.register}`, return the view id but not the exect path.
