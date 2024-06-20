@@ -10,7 +10,7 @@ This project showcases how to configure and deploy a Java EE 7 application on IB
 1. [Sign in Azure](#sign-in-azure)
 1. [Create Azure Database for PostgreSQL Flexible Server](#create-azure-database-for-postgresql-flexible-server)
 1. [Install PostgreSQL driver](#install-postgresql-driver)
-1. [Configure Console Preferences to synchronize changes with Nodes](#configure-console-preferences-to-synchronize-changes-with-nodes)
+1. [Configure Console Preferences for Node Synchronization](#configure-console-preferences-for-node-synchronization)
 1. [Create data source connection in tWAS](#create-data-source-connection-in-twas)
 1. [Create JMS queues](#create-jms-queues)
 1. [Deploy Cargo Tracker](#deploy-cargo-tracker)
@@ -157,7 +157,7 @@ You should find success message for each VM like:
 }
 ```
 
-## Configuring Console Preferences for Node Synchronization
+## Configure Console Preferences for Node Synchronization
 
 First, configure the Console to synchronize changes with Nodes. The changes will be applied to all nodes once you save them.
 
