@@ -396,7 +396,53 @@ With data source and JMS configured, you are able to deploy the application.
 
 ## Packaging and deploying as enterprise application
 
-## Use JMS Activation Specification
+To resolve CDI error, the sample pack the original Cargo Tracker source code as enterprise application.
+
+Structure of the application:
+
+```
+- cargotracker [cargotracker.war]
+- cargotracker-was-application [cargotracker.ear]
+```
+
+CDI error example:
+
+```
+[5/22/24 14:38:04:957 CST] 00000163 SystemErr     R com.ibm.ws.exception.RuntimeError: java.lang.RuntimeException: com.ibm.ws.cdi.CDIRuntimeException: com.ibm.ws.cdi.CDIDeploymentRuntimeException: org.jboss.weld.exceptions.DeploymentException: incompatible InnerClasses attribute between "org.eclipse.cargotracker.domain.model.cargo.Delivery$1" and "org.eclipse.cargotracker.domain.model.cargo.Delivery"
+```
+
+## Activation Specifications for Message-driven beans (MDB)
+
+Cargo Tracker uses message-driven beans in JMS module. In WebSphere Application Server, activation specifications are the standardized way to manage and configure the relationship between an MDB. They combine the configuration of connectivity, the Java Message Service (JMS) destination and the runtime characteristics of the MDB, within a single object. For more information, see [Message-driven beans, activation specifications, and listener ports](https://www.ibm.com/docs/fi/was/9.0.5?topic=retrieval-message-driven-beans-activation-specifications-listener-ports).
+
+The sample create service bus, queues and activation specifications and use the default connection factory:
+
+1. Service Bus: `CargoTrackerBus`
+
+   This represents the message bus used for the communication within the system.
+
+1. Connection Factory: `built-in-jms-connectionfactory`
+
+    The connection factory is used by the message-driven beans (MDBs) to establish connections to the messaging system.
+    The **CargoTrackerBus** uses the connection factory to configure the activation specifications.
+
+1. Activation Specifications:
+
+  These specify the configuration for the MDBs and determine how they interact with the queues.
+  Examples include RejectedRegistrationAttemptsQueueAS, HandlingEventRegistrationAttemptQueueAS, etc.
+  Each activation specification is configured with the connection factory.
+
+1. Queues:
+
+  These are the actual destinations where messages are sent and received.
+  Examples include RejectedRegistrationAttemptsQueue, HandlingEventRegistrationAttemptQueue, etc.
+  Each activation specification activates a corresponding queue.
+
+The general flow is:
+
+* The CargoTrackerBus uses the connection factory.
+* The connection factory is used to configure the activation specifications.
+* The activation specifications activate the respective queues.
 
 ## XA Data Source
 
