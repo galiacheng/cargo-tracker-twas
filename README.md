@@ -2,6 +2,22 @@
 
 The project demonstrates how you can configure and run a Java EE 7 application in IBM WebSphere Application Server Traditional (tWAS) Network Deployment V9 on Azure VMs. The project is directly based on the well-known Jakarta EE sample application Cargo Tracker V1.0. For further details on the project, please visit: https://eclipse-ee4j.github.io/cargotracker/.
 
+# Table of Contents
+
+1. [Getting Started](#getting-started)
+    - [Environment setup](#environment-setup)
+1. [Standup WebSphere Application Server (traditional) Cluster on Azure VMs](#standup-websphere-application-server-traditional-cluster-on-azure-vms)
+1. [Sign in Azure](#sign-in-azure)
+1. [Create Azure Database for PostgreSQL Flexible Server](#create-azure-database-for-postgresql-flexible-server)
+1. [Install PostgreSQL driver](#install-postgresql-driver)
+1. [Configure Console Preferences to synchronize changes with Nodes](#configure-console-preferences-to-synchronize-changes-with-nodes)
+1. [Create data source connection in tWAS](#create-data-source-connection-in-twas)
+1. [Create JMS queues](#create-jms-queues)
+1. [Deploy Cargo Tracker](#deploy-cargo-tracker)
+1. [Exercise Cargo Tracker Functionality](#exercise-cargo-tracker-functionality)
+1. [Migration summary](#migration-summary)
+
+
 # Getting Started
 
 Environment setup：
@@ -373,3 +389,7 @@ With data source and JMS configured, you are able to deploy the application.
 1. Back on the **Public Tracking Interface** select **Tracking** then enter **ABC123** and select **Track**.  Observe that different. **next expected activity** is listed.
 
 1. If desired, go back to **Mobile Event Logger** and continue performing the next activity.
+
+---------------------------
+
+# Migration summary
