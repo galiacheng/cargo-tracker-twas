@@ -393,3 +393,11 @@ With data source and JMS configured, you are able to deploy the application.
 ---------------------------
 
 # Migration summary
+
+## Packaging and deploying as enterprise application
+
+## Use JMS Activation Specification
+
+## XA Data Source
+
+## FlowScoped Faces refactoring
