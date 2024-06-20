@@ -469,4 +469,4 @@ public class BookingFlow implements Serializable {
 }
 ```
 
-Besides, in the method `#{booking.register}`, return the view id but not the exect path.
+Besides, in the method `#{booking.register}`, return the view id but not the exact path.
