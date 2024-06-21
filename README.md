@@ -449,7 +449,7 @@ This sample configure XA PostgreSQL, using `org.postgresql.xa.PGXADataSource`.
 
 ## FlowScoped Faces refactoring
 
-This sample use a Java class to define the flow as following:
+This sample uses a Java class to declare the flow as following:
 
 ```java
 public class BookingFlow implements Serializable {
