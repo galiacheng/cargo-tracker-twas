@@ -425,15 +425,15 @@ The sample creates service bus, queues and activation specifications using the d
 
 1. Activation Specifications:
 
-  These specify the configuration for the MDBs and determine how they interact with the queues.
-  Examples include RejectedRegistrationAttemptsQueueAS, HandlingEventRegistrationAttemptQueueAS, etc.
-  Each activation specification is configured with the connection factory.
+    These specify the configuration for the MDBs and determine how they interact with the queues.
+    Examples include RejectedRegistrationAttemptsQueueAS, HandlingEventRegistrationAttemptQueueAS, etc.
+    Each activation specification is configured with the connection factory.
 
 1. Queues:
 
-  These are the actual destinations where messages are sent and received.
-  Examples include RejectedRegistrationAttemptsQueue, HandlingEventRegistrationAttemptQueue, etc.
-  Each activation specification activates a corresponding queue.
+    These are the actual destinations where messages are sent and received.
+    Examples include RejectedRegistrationAttemptsQueue, HandlingEventRegistrationAttemptQueue, etc.
+    Each activation specification activates a corresponding queue.
 
 The general flow is:
 
